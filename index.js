@@ -1,4 +1,5 @@
 const formGroup = document.querySelector(".form-group");
+const travelContainer = document.querySelector(".travel-container");
 const addTicketBtn = document.querySelector(".addTicket-btn");
 
 const formInputData = [
@@ -83,6 +84,9 @@ const data = [
   },
 ];
 
+// render DOM
+
+// render Form
 function renderForm() {
   let htmlStr = "";
 
@@ -165,6 +169,35 @@ function renderFormArea(id, title, placeholder) {
   return textarea;
 }
 
+// render travel Card
+
+function renderTravelContainer() {
+  let htmlStr = ``;
+
+  data.forEach((item) => {
+    htmlStr += renderTravelCard(item);
+  });
+
+  travelContainer.innerHTML = htmlStr;
+}
+
+renderTravelContainer();
+
+function renderTravelCard(item) {
+  const { name, imgUrl, desc } = item;
+  return `
+    <li class="travel-card">
+      <img class="travel-img" src="${imgUrl}" alt="${name}">
+      <div class="travel-content">
+        <h2 class="travel-name">${name}</h2>
+        <p class="travel-desc">${desc}</p>
+      </div>
+    </li>
+  `;
+}
+
+// 點擊事件 event
+
 addTicketBtn.addEventListener("click", addData);
 
 function addData() {
@@ -190,6 +223,15 @@ function addData() {
   } else {
     console.log(tempObj);
 
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      icon: "success",
+      title: "新增資料成功!",
+    });
     data.push(tempObj);
   }
 }

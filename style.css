@@ -150,7 +150,7 @@ a {
   justify-content: center;
   align-items: flex-start;
   gap: 30px;
-  margin: 120px auto 0;
+  margin: 120px auto 100px;
   padding: 60px 95px;
   background: #ffffff 0% 0% no-repeat padding-box;
   box-shadow: 0px 3px 6px #00000029;
@@ -225,4 +225,62 @@ a {
 
 .addTicket-btn:hover {
   background-color: var(--accent);
+}
+
+/* Section 2 */
+
+.main-content {
+  width: 100%;
+  background-color: #f7f7f7;
+}
+
+.travel-container {
+  max-width: 1110px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  grid-gap: 30px;
+  margin: 0 auto;
+}
+
+.travel-card {
+}
+
+.travel-img {
+  width: 100%;
+  height: 180px;
+  margin-top: 146px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 4px 4px 0px 0px;
+}
+
+.travel-content {
+  padding: 20px 20px 14px 20px;
+  background-color: #ffffff;
+}
+
+.travel-content > .travel-name {
+  position: relative;
+  margin-bottom: 20px;
+  color: var(--primary);
+  line-height: 33px;
+  font-size: 24px;
+  font-weight: normal;
+}
+
+.travel-content > .travel-name::after {
+  content: "";
+  width: 100%;
+  height: 2px;
+  position: absolute;
+  left: 0px;
+  bottom: -4px;
+  background-color: #007572;
+}
+
+.travel-content > .travel-desc {
+  color: #818a91;
+  font-size: 16px;
+  font-weight: 400;
 }
