@@ -1,6 +1,8 @@
 const formGroup = document.querySelector(".form-group");
 const travelContainer = document.querySelector(".travel-container");
 const addTicketBtn = document.querySelector(".addTicket-btn");
+const travelSelect = document.querySelector(".travel-select");
+const selectText = document.querySelector(".select-text");
 
 const formInputData = [
   {
@@ -51,6 +53,39 @@ const formInputData = [
 const data = [
   {
     id: 0,
+    name: "綠島自由行套裝行程",
+    imgUrl:
+      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_1.png?raw=true",
+    area: "高雄",
+    desc: "嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。",
+    group: 87,
+    price: 1400,
+    rate: 10,
+  },
+  {
+    id: 1,
+    name: "清境高空觀景步道",
+    imgUrl:
+      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_4.png?raw=true",
+    area: "台北",
+    desc: "清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。",
+    group: 99,
+    price: 240,
+    rate: 2,
+  },
+  {
+    id: 2,
+    name: "山林悠遊套票",
+    imgUrl:
+      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_3.png?raw=true",
+    area: "台中",
+    desc: "山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。",
+    group: 20,
+    price: 1765,
+    rate: 7,
+  },
+  {
+    id: 3,
     name: "肥宅心碎賞櫻3日",
     imgUrl:
       "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
@@ -61,7 +96,7 @@ const data = [
     rate: 10,
   },
   {
-    id: 1,
+    id: 4,
     name: "貓空纜車雙程票",
     imgUrl:
       "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
@@ -72,17 +107,19 @@ const data = [
     rate: 2,
   },
   {
-    id: 2,
+    id: 5,
     name: "台中谷關溫泉會1日",
     imgUrl:
       "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
     area: "台中",
-    desc: "��館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
+    desc: "館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
     group: 20,
     price: 1765,
     rate: 7,
   },
 ];
+
+const selectOption = ["台北", "台中", "高雄"];
 
 // render DOM
 
@@ -106,7 +143,6 @@ function renderForm() {
   });
   formGroup.innerHTML = htmlStr;
 }
-
 renderForm();
 
 function renderFormInput(id, type, title, placeholder) {
@@ -170,7 +206,6 @@ function renderFormArea(id, title, placeholder) {
 }
 
 // render travel Card
-
 function renderTravelContainer() {
   let htmlStr = ``;
 
@@ -179,25 +214,76 @@ function renderTravelContainer() {
   });
 
   travelContainer.innerHTML = htmlStr;
+  selectItemNum(data);
 }
 
 renderTravelContainer();
 
 function renderTravelCard(item) {
-  const { name, imgUrl, desc } = item;
+  const { name, imgUrl, desc, area, rate, group, price } = item;
   return `
     <li class="travel-card">
-      <img class="travel-img" src="${imgUrl}" alt="${name}">
+      <p class="travel-tag travel-areaTag">${area}</p>
+      <div class="travel-imgBox">
+        <img class="travel-img" src="${imgUrl}" alt="${name}">
+      </div> 
       <div class="travel-content">
+        <div class="travel-tag travel-rateTag">${rate}</div>
         <h2 class="travel-name">${name}</h2>
         <p class="travel-desc">${desc}</p>
+      </div>
+      <div class="travel-footer">
+        <div class="travel-group">
+          <i class="fas fa-exclamation-circle"></i>
+           <p>剩下最後 ${group} 組</p>
+        </div>
+        <p class="travel-price">
+          TWD
+          <span>$${price}</span>
+        </p>
       </div>
     </li>
   `;
 }
 
-// 點擊事件 event
+function renderAddTravelCardChild(item) {
+  const li = document.createElement("li");
+  li.classList.add("travel-card");
+  li.innerHTML = renderTravelCardContent(item);
+  travelContainer.appendChild(li);
+}
 
+function renderTravelCardContent(item) {
+  const { name, imgUrl, desc, area, rate, group, price } = item;
+  return `
+    <p class="travel-tag travel-areaTag">${area}</p>
+    <div class="travel-imgBox">
+      <img class="travel-img" src="${imgUrl}" alt="${name}">
+    </div> 
+    <div class="travel-content">
+      <div class="travel-tag travel-rateTag">${rate}</div>
+      <h2 class="travel-name">${name}</h2>
+      <p class="travel-desc">${desc}</p>
+    </div>
+    <div class="travel-footer">
+      <div class="travel-group">
+        <i class="fas fa-exclamation-circle"></i>
+         <p>剩下最後 ${group} 組</p>
+      </div>
+      <p class="travel-price">
+        TWD
+        <span>$${price}</span>
+      </p>
+    </div>
+  `;
+}
+
+// select text
+function selectItemNum(selectData) {
+  selectText.textContent = `本次搜尋共 ${selectData.length} 筆資料`;
+}
+
+// 點擊事件 event
 addTicketBtn.addEventListener("click", addData);
 
 function addData() {
@@ -205,6 +291,7 @@ function addData() {
 
   formInputData.forEach(({ id }) => {
     tempDom = document.querySelector(`#${id}`);
+    tempDom.value = "";
     if (tempDom.value === "") return;
 
     tempObj[id] = tempDom.value;
@@ -221,8 +308,6 @@ function addData() {
       title: "不得輸入空白!",
     });
   } else {
-    console.log(tempObj);
-
     Swal.fire({
       toast: true,
       position: "top-end",
@@ -233,5 +318,6 @@ function addData() {
       title: "新增資料成功!",
     });
     data.push(tempObj);
+    renderAddTravelCardChild(tempObj);
   }
 }

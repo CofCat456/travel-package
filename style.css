@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap");
 
 /* reset css */
 html,
@@ -118,6 +118,9 @@ table {
 :root {
   --primary: #00807e;
   --accent: #004e4d;
+  --c-border: #007572;
+  --c-area: #64c3bf;
+  --c-rate: var(--primary);
 }
 
 * {
@@ -228,10 +231,25 @@ a {
 }
 
 /* Section 2 */
-
 .main-content {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  padding-top: 56px;
+  padding-bottom: 119px;
   background-color: #f7f7f7;
+}
+
+.bar {
+  max-width: 960px;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin: 0 auto 60px;
+}
+
+.bar > .select-text {
+  flex: 1;
 }
 
 .travel-container {
@@ -244,20 +262,67 @@ a {
 }
 
 .travel-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.travel-tag {
+  position: absolute;
+  left: 0;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  color: #fff;
+  z-index: 1;
+}
+
+.travel-areaTag {
+  top: -10px;
+  padding: 8px 20px;
+  background-color: var(--c-area);
+  line-height: 24px;
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.travel-imgBox {
+  width: 100%;
+  border-radius: 4px 4px 0px 0px;
+  overflow: hidden;
+  cursor: pointer;
 }
 
 .travel-img {
   width: 100%;
   height: 180px;
-  margin-top: 146px;
   object-fit: cover;
   object-position: center;
-  border-radius: 4px 4px 0px 0px;
+  scale: 1;
+  transition: scale 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.travel-img:hover {
+  scale: 1.1;
 }
 
 .travel-content {
+  flex: 1;
+  position: relative;
   padding: 20px 20px 14px 20px;
   background-color: #ffffff;
+}
+
+.travel-content > .travel-rateTag {
+  width: 39px;
+  height: 32px;
+  top: -16px;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--c-rate);
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .travel-content > .travel-name {
@@ -267,6 +332,12 @@ a {
   line-height: 33px;
   font-size: 24px;
   font-weight: normal;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.travel-content > .travel-name:hover {
+  color: var(--c-area);
+  cursor: pointer;
 }
 
 .travel-content > .travel-name::after {
@@ -276,11 +347,47 @@ a {
   position: absolute;
   left: 0px;
   bottom: -4px;
-  background-color: #007572;
+  background-color: var(--c-border);
 }
 
 .travel-content > .travel-desc {
   color: #818a91;
   font-size: 16px;
   font-weight: 400;
+}
+
+.travel-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 32px 20px 14px;
+  color: var(--primary);
+  background-color: #fff;
+}
+
+.travel-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.travel-group > p {
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.travel-price {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.travel-price > span {
+  font-family: "Roboto", sans-serif;
+  line-height: 43px;
+  font-size: 32px;
 }
