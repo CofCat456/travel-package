@@ -1,132 +1,132 @@
-const formGroup = document.querySelector(".form-group");
-const travelContainer = document.querySelector(".travel-container");
-const addTicketBtn = document.querySelector(".addTicket-btn");
-const travelSelect = document.querySelector(".travel-select");
-const selectText = document.querySelector(".select-text");
+const formGroup = document.querySelector('.form-group');
+const travelContainer = document.querySelector('.travel-container');
+const addTicketBtn = document.querySelector('.addTicket-btn');
+const travelSelect = document.querySelector('.travel-select');
+const selectText = document.querySelector('.select-text');
 
 const formInputData = [
   {
-    id: "name",
-    type: "text",
-    title: "套票名稱",
-    placeholder: "請填寫套票名稱",
+    id: 'name',
+    type: 'text',
+    title: '套票名稱',
+    placeholder: '請填寫套票名稱'
   },
   {
-    id: "imgUrl",
-    type: "text",
-    title: "圖片網址",
-    placeholder: "請填寫圖片網址",
+    id: 'imgUrl',
+    type: 'text',
+    title: '圖片網址',
+    placeholder: '請填寫圖片網址'
   },
   {
-    id: "area",
-    type: "select",
-    title: "景點地區",
-    placeholder: "請選擇景點地區",
-    option: ["高雄", "台北", "台中"],
+    id: 'area',
+    type: 'select',
+    title: '景點地區',
+    placeholder: '請選擇景點地區',
+    option: ['高雄', '台北', '台中']
   },
   {
-    id: "price",
-    type: "number",
-    title: "套票金額",
-    placeholder: "請填寫套票金額",
+    id: 'price',
+    type: 'number',
+    title: '套票金額',
+    placeholder: '請填寫套票金額'
   },
   {
-    id: "group",
-    type: "number",
-    title: "套票組數",
-    placeholder: "請填寫套票組數",
+    id: 'group',
+    type: 'number',
+    title: '套票組數',
+    placeholder: '請填寫套票組數'
   },
   {
-    id: "rate",
-    type: "number",
-    title: "套票星級",
-    placeholder: "請填寫套票星級",
+    id: 'rate',
+    type: 'number',
+    title: '套票星級',
+    placeholder: '請填寫套票星級'
   },
   {
-    id: "description",
-    type: "textarea",
-    title: "套票描述",
-    placeholder: "請填寫套票敘述 (限 100 字)",
-  },
+    id: 'description',
+    type: 'textarea',
+    title: '套票描述',
+    placeholder: '請填寫套票敘述 (限 100 字)'
+  }
 ];
 
 let travelData = [
   {
     id: 0,
-    name: "綠島自由行套裝行程",
+    name: '綠島自由行套裝行程',
     imgUrl:
-      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_1.png?raw=true",
-    area: "高雄",
-    description: "嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。",
+      'https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_1.png?raw=true',
+    area: '高雄',
+    description: '嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。',
     group: 87,
     price: 1400,
-    rate: 10,
+    rate: 10
   },
   {
     id: 1,
-    name: "清境高空觀景步道",
+    name: '清境高空觀景步道',
     imgUrl:
-      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_4.png?raw=true",
-    area: "台北",
+      'https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_4.png?raw=true',
+    area: '台北',
     description:
-      "清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。",
+      '清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。',
     group: 99,
     price: 240,
-    rate: 2,
+    rate: 2
   },
   {
     id: 2,
-    name: "山林悠遊套票",
+    name: '山林悠遊套票',
     imgUrl:
-      "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_3.png?raw=true",
-    area: "台中",
+      'https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_3.png?raw=true',
+    area: '台中',
     description:
-      "山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。",
+      '山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。',
     group: 20,
     price: 1765,
-    rate: 7,
+    rate: 7
   },
   {
     id: 3,
-    name: "肥宅心碎賞櫻3日",
+    name: '肥宅心碎賞櫻3日',
     imgUrl:
-      "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
-    area: "高雄",
-    description: "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
+      'https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80',
+    area: '高雄',
+    description: '賞櫻花最佳去處。肥宅不得不去的超讚景點！',
     group: 87,
     price: 1400,
-    rate: 10,
+    rate: 10
   },
   {
     id: 4,
-    name: "貓空纜車雙程票",
+    name: '貓空纜車雙程票',
     imgUrl:
-      "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-    area: "台北",
+      'https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80',
+    area: '台北',
     description:
-      "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
+      '乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感',
     group: 99,
     price: 240,
-    rate: 2,
+    rate: 2
   },
   {
     id: 5,
-    name: "台中谷關溫泉會1日",
+    name: '台中谷關溫泉會1日',
     imgUrl:
-      "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
-    area: "台中",
+      'https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80',
+    area: '台中',
     description:
-      "館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
+      '館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。',
     group: 20,
     price: 1765,
-    rate: 7,
-  },
+    rate: 7
+  }
 ];
 
-const selectOption = ["台北", "台中", "高雄"];
+const selectOption = ['台北', '台中', '高雄'];
 
 const url =
-  "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json";
+  'https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json';
 
 // fetchData
 
@@ -151,18 +151,18 @@ async function fetchData() {
 
 // render Form
 function renderForm() {
-  let htmlStr = "";
+  let htmlStr = '';
 
   formInputData.forEach(({ id, type, title, option, placeholder }) => {
     switch (type) {
-      case "text":
-      case "number":
+      case 'text':
+      case 'number':
         htmlStr += renderFormInput(id, type, title, placeholder);
         break;
-      case "select":
+      case 'select':
         htmlStr += renderFormSelect(id, title, placeholder, option);
         break;
-      case "textarea":
+      case 'textarea':
         htmlStr += renderFormArea(id, title, placeholder);
         break;
     }
@@ -191,20 +191,20 @@ function renderFormInput(id, type, title, placeholder) {
         id="${id}"
         type="number"
         min="1"
-        ${id === "rate" ? 'max="10"' : ""}
+        ${id === 'rate' ? 'max="10"' : ''}
         name="${title}"
         placeholder="${placeholder}"
       />
     </div>
   `;
 
-  return type === "text" ? textInput : numberInput;
+  return type === 'text' ? textInput : numberInput;
 }
 
 function renderFormSelect(id, title, placeholder, option) {
-  let optionStr = "";
+  let optionStr = '';
 
-  option.forEach((item) => {
+  option.forEach(item => {
     optionStr += `
       <option value="${item}">
     `;
@@ -236,7 +236,7 @@ function renderFormArea(id, title, placeholder) {
 function renderTravelContainer(data) {
   let htmlStr = ``;
 
-  data.forEach((item) => {
+  data.forEach(item => {
     htmlStr += renderTravelCard(item);
   });
 
@@ -265,7 +265,7 @@ function renderTravelCard(item) {
         </div>
         <p class="travel-price">
           TWD
-          <span>${currency(price, "$")}</span>
+          <span>${currency(price, '$')}</span>
         </p>
       </div>
     </li>
@@ -273,8 +273,8 @@ function renderTravelCard(item) {
 }
 
 function renderAddTravelCardChild(item) {
-  const li = document.createElement("li");
-  li.classList.add("travel-card");
+  const li = document.createElement('li');
+  li.classList.add('travel-card');
   li.innerHTML = renderTravelCardContent(item);
   travelContainer.appendChild(li);
 }
@@ -299,7 +299,7 @@ function renderTravelCardContent(item) {
       </div>
       <p class="travel-price">
         TWD
-        <span>${currency(price, "$")}</span>
+        <span>${currency(price, '$')}</span>
       </p>
     </div>
   `;
@@ -310,7 +310,7 @@ function renderTravelSelect() {
     <option value="地區搜尋" selected disabled hidden>地區搜尋</option>
     <option value="全部地區">全部地區</option>
   `;
-  selectOption.forEach((option) => {
+  selectOption.forEach(option => {
     htmlStr += renderTravelSelectOption(option);
   });
   travelSelect.innerHTML = htmlStr;
@@ -330,17 +330,17 @@ function selectItemNum(selectData) {
 
 // 換算金錢
 function currency(val, symbol) {
-  const arr = val.toString().split(".");
+  const arr = val.toString().split('.');
   const re = /(\d{1,3})(?=(\d{3})+$)/g;
   return (
-    symbol + arr[0].replace(re, "$1,") + (arr.length === 2 ? "." + arr[1] : "")
+    symbol + arr[0].replace(re, '$1,') + (arr.length === 2 ? '.' + arr[1] : '')
   );
 }
 
 // 事件 event
-addTicketBtn.addEventListener("click", addData);
-travelSelect.addEventListener("change", selectData);
-travelContainer.addEventListener("click", deleteData);
+addTicketBtn.addEventListener('click', addData);
+travelSelect.addEventListener('change', selectData);
+travelContainer.addEventListener('click', deleteData);
 
 function addData() {
   const tempObj = {};
@@ -349,64 +349,64 @@ function addData() {
 
   formInputData.forEach(({ id, type, title }) => {
     tempDom = document.querySelector(`#${id}`);
-    if (type === "number" && !numRegex.test(tempDom.value)) {
+    if (type === 'number' && !numRegex.test(tempDom.value)) {
       errorMsg.push(`${title}欄位請輸入數字`);
-      tempDom.value = "";
+      tempDom.value = '';
       return;
     }
 
-    if (tempDom.value === "") {
+    if (tempDom.value === '') {
       errorMsg.push(`${title}輸入不得為空`);
       return;
     }
 
-    if (id === "imgUrl" && tempDom.value.indexOf("https") === -1) {
+    if (id === 'imgUrl' && tempDom.value.indexOf('https') === -1) {
       tempDom.value =
-        "https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto";
+        'https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto';
     }
 
-    if (id === "area" && !selectOption.includes(tempDom.value)) {
+    if (id === 'area' && !selectOption.includes(tempDom.value)) {
       errorMsg.push(`${title}限輸入選項內的地區`);
-      tempDom.value = "";
+      tempDom.value = '';
       return;
     }
 
     tempObj[id] = tempDom.value;
-    tempDom.value = "";
+    tempDom.value = '';
   });
 
   if (errorMsg.length === formInputData.length) {
     Swal.fire({
       toast: true,
-      position: "top-end",
+      position: 'top-end',
       showConfirmButton: false,
       timer: 1500,
       timerProgressBar: true,
-      icon: "error",
-      title: "麻煩輸入值!",
+      icon: 'error',
+      title: '麻煩輸入值!'
     });
     errorMsg = [];
   } else if (errorMsg.length > 0) {
     Swal.fire({
       toast: true,
-      position: "top-end",
+      position: 'top-end',
       showConfirmButton: false,
       timer: 3000,
       timerProgressBar: true,
-      icon: "error",
-      title: "輸入錯誤!",
-      text: errorMsg.join(", "),
+      icon: 'error',
+      title: '輸入錯誤!',
+      text: errorMsg.join(', ')
     });
     errorMsg = [];
   } else {
     Swal.fire({
       toast: true,
-      position: "top-end",
+      position: 'top-end',
       showConfirmButton: false,
       timer: 1500,
       timerProgressBar: true,
-      icon: "success",
-      title: `新增資料成功!`,
+      icon: 'success',
+      title: `新增資料成功!`
     });
     travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
@@ -415,8 +415,8 @@ function addData() {
 }
 
 function selectData() {
-  if (travelSelect.classList.contains("default")) {
-    travelSelect.classList.remove("default");
+  if (travelSelect.classList.contains('default')) {
+    travelSelect.classList.remove('default');
   }
 
   if (selectOption.includes(travelSelect.value)) {
@@ -429,27 +429,27 @@ function selectData() {
 }
 
 function deleteData(e) {
-  if (!e.target.classList.contains("travel-delete")) return;
-  let deleteName = e.target.getAttribute("name");
+  if (!e.target.classList.contains('travel-delete')) return;
+  let deleteName = e.target.getAttribute('name');
   Swal.fire({
     title: `確定要刪除 ${deleteName} 嗎?`,
-    text: "你將再也看不到他...",
-    icon: "warning",
+    text: '你將再也看不到他...',
+    icon: 'warning',
     showCancelButton: true,
-    confirmButtonColor: "#3085d6",
-    cancelButtonColor: "#d33",
-    confirmButtonText: "是的 刪除他",
-    cancelButtonText: "再想想",
-  }).then((result) => {
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: '是的 刪除他',
+    cancelButtonText: '再想想'
+  }).then(result => {
     if (result.isConfirmed) {
       Swal.fire({
         toast: true,
-        position: "top-end",
+        position: 'top-end',
         showConfirmButton: false,
         timer: 1500,
         timerProgressBar: true,
-        icon: "success",
-        title: "他正飄向宇宙的盡頭...",
+        icon: 'success',
+        title: '他正飄向宇宙的盡頭...'
       });
       travelData = travelData.filter(({ name }) => name !== deleteName);
       renderTravelContainer(travelData);
@@ -460,13 +460,13 @@ function deleteData(e) {
 
 // localStorage
 function saveLocalTravelData() {
-  localStorage.setItem("travel", JSON.stringify(travelData));
+  localStorage.setItem('travel', JSON.stringify(travelData));
 }
 
 function getLocalTravelData() {
-  if (localStorage.getItem("travel") === null) {
-    localStorage.setItem("travel", JSON.stringify(travelData));
+  if (localStorage.getItem('travel') === null) {
+    localStorage.setItem('travel', JSON.stringify(travelData));
   } else {
-    travelData = JSON.parse(localStorage.getItem("travel"));
+    travelData = JSON.parse(localStorage.getItem('travel'));
   }
 }
