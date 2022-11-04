@@ -334,7 +334,7 @@ a {
 
 @media screen and (max-width: 400px) {
   .travel-container {
-    grid-template-columns: repeat(auto-fill, 268px);
+    grid-template-columns: repeat(auto-fill, 100%);
   }
 }
 
@@ -425,6 +425,12 @@ a {
   scale: 1.1;
 }
 
+@media screen and (max-width: 420px) {
+  .travel-delete {
+    font-size: 20px;
+  }
+}
+
 .travel-rateTag {
   width: 39px;
   height: 32px;
@@ -504,4 +510,11 @@ a {
   font-family: 'Roboto', sans-serif;
   line-height: 43px;
   font-size: 32px;
+}
+
+@media screen and (max-width: 420px) {
+  .travel-price > span {
+    line-height: 22px;
+    font-size: 16px;
+  }
 }
