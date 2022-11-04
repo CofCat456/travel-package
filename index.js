@@ -50,7 +50,7 @@ const formInputData = [
   },
 ];
 
-const data = [
+let travelData = [
   {
     id: 0,
     name: "綠島自由行套裝行程",
@@ -120,6 +120,9 @@ const data = [
 ];
 
 const selectOption = ["台北", "台中", "高雄"];
+
+// check localStorage
+getLocalTravelData();
 
 // render DOM
 
@@ -206,7 +209,7 @@ function renderFormArea(id, title, placeholder) {
 }
 
 // render travel Card
-function renderTravelContainer() {
+function renderTravelContainer(data) {
   let htmlStr = ``;
 
   data.forEach((item) => {
@@ -216,8 +219,7 @@ function renderTravelContainer() {
   travelContainer.innerHTML = htmlStr;
   selectItemNum(data);
 }
-
-renderTravelContainer();
+renderTravelContainer(travelData);
 
 function renderTravelCard(item) {
   const { name, imgUrl, desc, area, rate, group, price } = item;
@@ -228,6 +230,7 @@ function renderTravelCard(item) {
         <img class="travel-img" src="${imgUrl}" alt="${name}">
       </div> 
       <div class="travel-content">
+        <i name="${name}" class="travel-delete fa-solid fa-trash"></i>
         <div class="travel-tag travel-rateTag">${rate}</div>
         <h2 class="travel-name">${name}</h2>
         <p class="travel-desc">${desc}</p>
@@ -239,7 +242,7 @@ function renderTravelCard(item) {
         </div>
         <p class="travel-price">
           TWD
-          <span>$${price}</span>
+          <span>${currency(price, "$")}</span>
         </p>
       </div>
     </li>
@@ -261,6 +264,7 @@ function renderTravelCardContent(item) {
       <img class="travel-img" src="${imgUrl}" alt="${name}">
     </div> 
     <div class="travel-content">
+      <i name=${name} class="travel-delete fa-solid fa-trash"></i>
       <div class="travel-tag travel-rateTag">${rate}</div>
       <h2 class="travel-name">${name}</h2>
       <p class="travel-desc">${desc}</p>
@@ -272,29 +276,66 @@ function renderTravelCardContent(item) {
       </div>
       <p class="travel-price">
         TWD
-        <span>$${price}</span>
+        <span>${currency(price, "$")}</span>
       </p>
     </div>
   `;
 }
+
+function renderTravelSelect() {
+  let htmlStr = `
+    <option value="地區搜尋" selected disabled hidden>地區搜尋</option>
+    <option value="全歹丸">全歹丸</option>
+  `;
+  selectOption.forEach((option) => {
+    htmlStr += renderTravelSelectOption(option);
+  });
+  travelSelect.innerHTML = htmlStr;
+}
+
+function renderTravelSelectOption(option) {
+  return `
+    <option value="${option}">${option}</option>
+  `;
+}
+renderTravelSelect();
 
 // select text
 function selectItemNum(selectData) {
   selectText.textContent = `本次搜尋共 ${selectData.length} 筆資料`;
 }
 
-// 點擊事件 event
+// 換算金錢
+function currency(val, symbol) {
+  const arr = val.toString().split(".");
+  const re = /(\d{1,3})(?=(\d{3})+$)/g;
+  return (
+    symbol + arr[0].replace(re, "$1,") + (arr.length === 2 ? "." + arr[1] : "")
+  );
+}
+
+// 事件 event
 addTicketBtn.addEventListener("click", addData);
+travelSelect.addEventListener("change", selectData);
+travelContainer.addEventListener("click", deleteData);
 
 function addData() {
   const tempObj = {};
 
-  formInputData.forEach(({ id }) => {
+  formInputData.forEach(({ id, type }) => {
     tempDom = document.querySelector(`#${id}`);
-    tempDom.value = "";
-    if (tempDom.value === "") return;
+    if (tempDom.value === "") return (tempDom.value = "");
+    if (type === "number" && tempDom.value === "e") return tempDom.value === "";
+    if (id === "imgUrl" && tempDom.value.indexOf("https") === -1) {
+      tempDom.value =
+        "https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto";
+    }
+    if (id === "area" && !selectOption.includes(tempDom.value)) {
+      return (tempDom.value = "");
+    }
 
     tempObj[id] = tempDom.value;
+    tempDom.value = "";
   });
 
   if (Object.values(tempObj).length !== formInputData.length) {
@@ -317,7 +358,64 @@ function addData() {
       icon: "success",
       title: "新增資料成功!",
     });
-    data.push(tempObj);
+    travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
+    saveLocalTravelData();
+  }
+}
+
+function selectData() {
+  if (travelSelect.classList.contains("default")) {
+    travelSelect.classList.remove("default");
+  }
+
+  if (selectOption.includes(travelSelect.value)) {
+    renderTravelContainer(
+      travelData.filter(({ area }) => area === travelSelect.value)
+    );
+  } else {
+    renderTravelContainer(travelData);
+  }
+}
+
+function deleteData(e) {
+  let deleteName = e.target.getAttribute("name");
+  Swal.fire({
+    title: `確定要刪除 ${deleteName} 嗎?`,
+    text: "你將再也看不到他...",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "是的 刪除他",
+    cancelButtonText: "再想想",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      Swal.fire({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 1500,
+        timerProgressBar: true,
+        icon: "success",
+        title: "他正飄向宇宙的盡頭...",
+      });
+      travelData = travelData.filter(({ name }) => name !== deleteName);
+      renderTravelContainer(travelData);
+      saveLocalTravelData();
+    }
+  });
+}
+
+// localStorage
+function saveLocalTravelData() {
+  localStorage.setItem("travel", JSON.stringify(travelData));
+}
+
+function getLocalTravelData() {
+  if (localStorage.getItem("travel") === null) {
+    localStorage.setItem("travel", JSON.stringify(travelData));
+  } else {
+    travelData = JSON.parse(localStorage.getItem("travel"));
   }
 }

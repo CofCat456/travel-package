@@ -121,6 +121,7 @@ table {
   --c-border: #007572;
   --c-area: #64c3bf;
   --c-rate: var(--primary);
+  --c-font: #818a91;
 }
 
 * {
@@ -240,16 +241,32 @@ a {
   background-color: #f7f7f7;
 }
 
-.bar {
-  max-width: 960px;
+.travel-bar {
+  width: 960px;
   display: flex;
   align-items: center;
   gap: 30px;
   margin: 0 auto 60px;
 }
 
-.bar > .select-text {
-  flex: 1;
+.travel-select {
+  width: 255px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.travel-select.default {
+  color: var(--c-font);
+}
+
+.select-text {
+  color: var(--c-font);
+  line-height: 22px;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .travel-container {
@@ -265,6 +282,15 @@ a {
   position: relative;
   display: flex;
   flex-direction: column;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  box-shadow: 0px 3px 6px #00000029;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.travel-card:hover {
+  box-shadow: 0px 6px 9px #00000029;
 }
 
 .travel-tag {
@@ -312,7 +338,27 @@ a {
   background-color: #ffffff;
 }
 
-.travel-content > .travel-rateTag {
+.travel-content:hover .travel-delete {
+  opacity: 1;
+}
+
+.travel-delete {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: var(--c-font);
+  font-size: 20px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  opacity: 0;
+  z-index: 10;
+}
+
+.travel-delete:hover {
+  scale: 1.1;
+}
+
+.travel-rateTag {
   width: 39px;
   height: 32px;
   top: -16px;
@@ -325,7 +371,7 @@ a {
   font-weight: 400;
 }
 
-.travel-content > .travel-name {
+.travel-name {
   position: relative;
   margin-bottom: 20px;
   color: var(--primary);
@@ -335,12 +381,12 @@ a {
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.travel-content > .travel-name:hover {
+.travel-name:hover {
   color: var(--c-area);
   cursor: pointer;
 }
 
-.travel-content > .travel-name::after {
+.travel-name::after {
   content: "";
   width: 100%;
   height: 2px;
@@ -350,7 +396,7 @@ a {
   background-color: var(--c-border);
 }
 
-.travel-content > .travel-desc {
+.travel-desc {
   color: #818a91;
   font-size: 16px;
   font-weight: 400;
@@ -361,6 +407,7 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 32px 20px 14px;
+  border-radius: 0px 0px 4px 4px;
   color: var(--primary);
   background-color: #fff;
 }
