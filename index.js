@@ -43,7 +43,7 @@ const formInputData = [
     placeholder: "請填寫套票星級",
   },
   {
-    id: "desc",
+    id: "description",
     type: "textarea",
     title: "套票描述",
     placeholder: "請填寫套票敘述 (限 100 字)",
@@ -57,7 +57,7 @@ let travelData = [
     imgUrl:
       "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_1.png?raw=true",
     area: "高雄",
-    desc: "嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。",
+    description: "嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。",
     group: 87,
     price: 1400,
     rate: 10,
@@ -68,7 +68,8 @@ let travelData = [
     imgUrl:
       "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_4.png?raw=true",
     area: "台北",
-    desc: "清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。",
+    description:
+      "清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。",
     group: 99,
     price: 240,
     rate: 2,
@@ -79,7 +80,8 @@ let travelData = [
     imgUrl:
       "https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_3.png?raw=true",
     area: "台中",
-    desc: "山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。",
+    description:
+      "山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。",
     group: 20,
     price: 1765,
     rate: 7,
@@ -90,7 +92,7 @@ let travelData = [
     imgUrl:
       "https://images.unsplash.com/photo-1522383225653-ed111181a951?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1655&q=80",
     area: "高雄",
-    desc: "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
+    description: "賞櫻花最佳去處。肥宅不得不去的超讚景點！",
     group: 87,
     price: 1400,
     rate: 10,
@@ -101,7 +103,8 @@ let travelData = [
     imgUrl:
       "https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
     area: "台北",
-    desc: "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
+    description:
+      "乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感",
     group: 99,
     price: 240,
     rate: 2,
@@ -112,7 +115,8 @@ let travelData = [
     imgUrl:
       "https://images.unsplash.com/photo-1535530992830-e25d07cfa780?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80",
     area: "台中",
-    desc: "館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
+    description:
+      "館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。",
     group: 20,
     price: 1765,
     rate: 7,
@@ -120,6 +124,28 @@ let travelData = [
 ];
 
 const selectOption = ["台北", "台中", "高雄"];
+
+const url =
+  "https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json";
+
+// fetchData
+
+async function fetchData() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+(async () => {
+  const data = await fetchData();
+  travelData = data;
+  console.log(travelData);
+  renderTravelContainer(travelData);
+})();
 
 // check localStorage
 getLocalTravelData();
@@ -219,10 +245,9 @@ function renderTravelContainer(data) {
   travelContainer.innerHTML = htmlStr;
   selectItemNum(data);
 }
-renderTravelContainer(travelData);
 
 function renderTravelCard(item) {
-  const { name, imgUrl, desc, area, rate, group, price } = item;
+  const { name, imgUrl, description, area, rate, group, price } = item;
   return `
     <li class="travel-card">
       <p class="travel-tag travel-areaTag">${area}</p>
@@ -233,7 +258,7 @@ function renderTravelCard(item) {
         <i name="${name}" class="travel-delete fa-solid fa-trash"></i>
         <div class="travel-tag travel-rateTag">${rate}</div>
         <h2 class="travel-name">${name}</h2>
-        <p class="travel-desc">${desc}</p>
+        <p class="travel-desc">${description}</p>
       </div>
       <div class="travel-footer">
         <div class="travel-group">
@@ -257,7 +282,7 @@ function renderAddTravelCardChild(item) {
 }
 
 function renderTravelCardContent(item) {
-  const { name, imgUrl, desc, area, rate, group, price } = item;
+  const { name, imgUrl, description, area, rate, group, price } = item;
   return `
     <p class="travel-tag travel-areaTag">${area}</p>
     <div class="travel-imgBox">
@@ -267,7 +292,7 @@ function renderTravelCardContent(item) {
       <i name=${name} class="travel-delete fa-solid fa-trash"></i>
       <div class="travel-tag travel-rateTag">${rate}</div>
       <h2 class="travel-name">${name}</h2>
-      <p class="travel-desc">${desc}</p>
+      <p class="travel-desc">${description}</p>
     </div>
     <div class="travel-footer">
       <div class="travel-group">
