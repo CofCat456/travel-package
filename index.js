@@ -375,7 +375,18 @@ function addData() {
     tempDom.value = "";
   });
 
-  if (Object.values(tempObj).length !== formInputData.length) {
+  if (errorMsg.length === formInputData.length) {
+    Swal.fire({
+      toast: true,
+      position: "top-end",
+      showConfirmButton: false,
+      timer: 1500,
+      timerProgressBar: true,
+      icon: "error",
+      title: "麻煩輸入值!",
+    });
+    errorMsg = [];
+  } else if (errorMsg.length > 0) {
     Swal.fire({
       toast: true,
       position: "top-end",
@@ -418,6 +429,7 @@ function selectData() {
 }
 
 function deleteData(e) {
+  if (!e.target.classList.contains("travel-delete")) return;
   let deleteName = e.target.getAttribute("name");
   Swal.fire({
     title: `確定要刪除 ${deleteName} 嗎?`,
