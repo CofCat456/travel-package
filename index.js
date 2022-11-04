@@ -143,12 +143,9 @@ async function fetchData() {
 (async () => {
   const data = await fetchData();
   travelData = data;
-  console.log(travelData);
+  getLocalTravelData();
   renderTravelContainer(travelData);
 })();
-
-// check localStorage
-getLocalTravelData();
 
 // render DOM
 
@@ -194,6 +191,7 @@ function renderFormInput(id, type, title, placeholder) {
         id="${id}"
         type="number"
         min="1"
+        ${id === "rate" ? 'max="10"' : ""}
         name="${title}"
         placeholder="${placeholder}"
       />
@@ -310,7 +308,7 @@ function renderTravelCardContent(item) {
 function renderTravelSelect() {
   let htmlStr = `
     <option value="地區搜尋" selected disabled hidden>地區搜尋</option>
-    <option value="全歹丸">全歹丸</option>
+    <option value="全部地區">全部地區</option>
   `;
   selectOption.forEach((option) => {
     htmlStr += renderTravelSelectOption(option);
@@ -346,17 +344,31 @@ travelContainer.addEventListener("click", deleteData);
 
 function addData() {
   const tempObj = {};
+  let errorMsg = [];
+  const numRegex = new RegExp(/^([1-9][0-9]*)+(.[0-9]{1,2})?$/);
 
-  formInputData.forEach(({ id, type }) => {
+  formInputData.forEach(({ id, type, title }) => {
     tempDom = document.querySelector(`#${id}`);
-    if (tempDom.value === "") return (tempDom.value = "");
-    if (type === "number" && tempDom.value === "e") return tempDom.value === "";
+    if (type === "number" && !numRegex.test(tempDom.value)) {
+      errorMsg.push(`${title}欄位請輸入數字`);
+      tempDom.value = "";
+      return;
+    }
+
+    if (tempDom.value === "") {
+      errorMsg.push(`${title}輸入不得為空`);
+      return;
+    }
+
     if (id === "imgUrl" && tempDom.value.indexOf("https") === -1) {
       tempDom.value =
         "https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto";
     }
+
     if (id === "area" && !selectOption.includes(tempDom.value)) {
-      return (tempDom.value = "");
+      errorMsg.push(`${title}限輸入選項內的地區`);
+      tempDom.value = "";
+      return;
     }
 
     tempObj[id] = tempDom.value;
@@ -368,11 +380,13 @@ function addData() {
       toast: true,
       position: "top-end",
       showConfirmButton: false,
-      timer: 1500,
+      timer: 3000,
       timerProgressBar: true,
       icon: "error",
-      title: "不得輸入空白!",
+      title: "輸入錯誤!",
+      text: errorMsg.join(", "),
     });
+    errorMsg = [];
   } else {
     Swal.fire({
       toast: true,
@@ -381,7 +395,7 @@ function addData() {
       timer: 1500,
       timerProgressBar: true,
       icon: "success",
-      title: "新增資料成功!",
+      title: `新增資料成功!`,
     });
     travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
