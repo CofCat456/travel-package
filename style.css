@@ -190,7 +190,12 @@ a {
   .addTicket-panel {
     width: calc(100% - 32px);
     margin: 40px 16px;
-    padding: 30px;
+    padding: 30px 16px;
+  }
+
+  .addTicket-form {
+    width: 100%;
+    padding: 0 16px;
   }
 }
 
@@ -199,10 +204,6 @@ a {
   color: var(--primary);
   font-size: 1.5rem;
   border-bottom: 3px solid var(--primary);
-}
-
-.form-group {
-  padding: 0 16px;
 }
 
 .addTicket-block {

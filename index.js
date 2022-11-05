@@ -383,7 +383,7 @@ function addData() {
       timer: 1500,
       timerProgressBar: true,
       icon: 'error',
-      title: '麻煩輸入值!'
+      title: '表單是空的唷!'
     });
     errorMsg = [];
   } else if (errorMsg.length > 0) {
