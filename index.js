@@ -234,7 +234,7 @@ function renderFormArea(id, title, placeholder) {
 
 // render travel Card
 function renderTravelContainer(data) {
-  let htmlStr = ``;
+  let htmlStr = '';
 
   data.forEach(item => {
     htmlStr += renderTravelCard(item);
@@ -348,7 +348,7 @@ function addData() {
   const numRegex = new RegExp(/^([1-9][0-9]*)+(.[0-9]{1,2})?$/);
 
   formInputData.forEach(({ id, type, title }) => {
-    tempDom = document.querySelector(`#${id}`);
+    const tempDom = document.querySelector(`#${id}`);
     if (type === 'number' && !numRegex.test(tempDom.value)) {
       errorMsg.push(`${title}欄位請輸入數字`);
       tempDom.value = '';
@@ -406,7 +406,7 @@ function addData() {
       timer: 1500,
       timerProgressBar: true,
       icon: 'success',
-      title: `新增資料成功!`
+      title: '新增資料成功!'
     });
     travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
@@ -430,7 +430,7 @@ function selectData() {
 
 function deleteData(e) {
   if (!e.target.classList.contains('travel-delete')) return;
-  let deleteName = e.target.getAttribute('name');
+  const deleteName = e.target.getAttribute('name');
   Swal.fire({
     title: `確定要刪除 ${deleteName} 嗎?`,
     text: '你將再也看不到他...',
