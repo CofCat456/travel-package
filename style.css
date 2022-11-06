@@ -171,13 +171,14 @@ a {
 }
 
 .addTicket-form {
-  flex: 1;
+  width: 100%;
 }
 
 @media screen and (max-width: 920px) {
   .addTicket-panel {
     width: 600px;
     flex-direction: column;
+    padding: 40px 55px;
   }
 
   .addTicket-imgBox,
@@ -199,6 +200,12 @@ a {
   }
 }
 
+@media screen and (max-width: 420px) {
+  .addTicket-imgBox img:last-child {
+    display: none;
+  }
+}
+
 .addTicket-title {
   margin-bottom: 40px;
   color: var(--primary);
@@ -210,6 +217,12 @@ a {
   display: flex;
   align-items: center;
   gap: 22px;
+}
+
+@media screen and (max-width: 420px) {
+  .addTicket-block {
+    gap: 8px;
+  }
 }
 
 .addTicket-block + .addTicket-block {
@@ -265,6 +278,12 @@ a {
 
 .addTicket-btn:hover {
   background-color: var(--accent);
+}
+
+@media screen and (max-width: 420px) {
+  .addTicket-btn {
+    margin: 16px auto 0;
+  }
 }
 
 /* Section 2 */
