@@ -236,6 +236,13 @@ function renderFormArea(id, title, placeholder) {
 function renderTravelContainer(data) {
   let htmlStr = '';
 
+  if (data.length === 0) {
+    travelContainer.innerHTML =
+      '<img src="images/no_found.png" class="travel_noFoundImg" />';
+    selectItemNum(data);
+    return;
+  }
+
   data.forEach(item => {
     htmlStr += renderTravelCard(item);
   });
@@ -419,10 +426,12 @@ function selectData() {
     travelSelect.classList.remove('default');
   }
 
+  const filterData = travelData.filter(
+    ({ area }) => area === travelSelect.value
+  );
+
   if (selectOption.includes(travelSelect.value)) {
-    renderTravelContainer(
-      travelData.filter(({ area }) => area === travelSelect.value)
-    );
+    renderTravelContainer(filterData);
   } else {
     renderTravelContainer(travelData);
   }
@@ -467,6 +476,8 @@ function getLocalTravelData() {
   if (localStorage.getItem('travel') === null) {
     localStorage.setItem('travel', JSON.stringify(travelData));
   } else {
-    travelData = JSON.parse(localStorage.getItem('travel'));
+    const tempData = JSON.parse(localStorage.getItem('travel'));
+    if (tempData.length === 0) return;
+    travelData = tempData;
   }
 }

@@ -362,6 +362,13 @@ a {
   }
 }
 
+.travel_noFoundImg {
+  grid-column: 1 / -1;
+  justify-self: center;
+  height: 350px;
+  object-fit: cover;
+}
+
 .travel-card {
   width: 100%;
   position: relative;
