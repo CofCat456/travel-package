@@ -9,45 +9,45 @@ const formInputData = [
     id: 'name',
     type: 'text',
     title: '套票名稱',
-    placeholder: '請填寫套票名稱'
+    placeholder: '請填寫套票名稱',
   },
   {
-    id: 'imgUrl',
+    id: '`mgUrl',
     type: 'text',
     title: '圖片網址',
-    placeholder: '請填寫圖片網址'
+    placeholder: '請填寫圖片網址',
   },
   {
     id: 'area',
     type: 'select',
     title: '景點地區',
     placeholder: '請選擇景點地區',
-    option: ['高雄', '台北', '台中']
+    option: ['高雄', '台北', '台中'],
   },
   {
     id: 'price',
     type: 'number',
     title: '套票金額',
-    placeholder: '請填寫套票金額'
+    placeholder: '請填寫套票金額',
   },
   {
     id: 'group',
     type: 'number',
     title: '套票組數',
-    placeholder: '請填寫套票組數'
+    placeholder: '請填寫套票組數',
   },
   {
     id: 'rate',
     type: 'number',
     title: '套票星級',
-    placeholder: '請填寫套票星級'
+    placeholder: '請填寫套票星級',
   },
   {
     id: 'description',
     type: 'textarea',
     title: '套票描述',
-    placeholder: '請填寫套票敘述 (限 100 字)'
-  }
+    placeholder: '請填寫套票敘述 (限 100 字)',
+  },
 ];
 
 let travelData = [
@@ -60,7 +60,7 @@ let travelData = [
     description: '嚴選超高CP值綠島自由行套裝行程，多種綠島套裝組合。',
     group: 87,
     price: 1400,
-    rate: 10
+    rate: 10,
   },
   {
     id: 1,
@@ -72,7 +72,7 @@ let travelData = [
       '清境農場青青草原數十公頃碧草，這些景觀豐沛了清境觀景步道的風格，也涵養它無可取代的特色。',
     group: 99,
     price: 240,
-    rate: 2
+    rate: 2,
   },
   {
     id: 2,
@@ -80,11 +80,10 @@ let travelData = [
     imgUrl:
       'https://github.com/hexschool/2022-web-layout-training/blob/main/js_week5/travel_3.png?raw=true',
     area: '台中',
-    description:
-      '山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。',
+    description: '山林悠遊套票，結合南投清境高空步道、雙龍瀑布七彩吊橋、瑞龍瀑布園區之熱門景點。',
     group: 20,
     price: 1765,
-    rate: 7
+    rate: 7,
   },
   {
     id: 3,
@@ -95,7 +94,7 @@ let travelData = [
     description: '賞櫻花最佳去處。肥宅不得不去的超讚景點！',
     group: 87,
     price: 1400,
-    rate: 10
+    rate: 10,
   },
   {
     id: 4,
@@ -103,11 +102,10 @@ let travelData = [
     imgUrl:
       'https://images.unsplash.com/photo-1501393152198-34b240415948?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80',
     area: '台北',
-    description:
-      '乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感',
+    description: '乘坐以透明強化玻璃為地板的「貓纜之眼」水晶車廂，享受騰雲駕霧遨遊天際之感',
     group: 99,
     price: 240,
-    rate: 2
+    rate: 2,
   },
   {
     id: 5,
@@ -119,14 +117,13 @@ let travelData = [
       '館客房均提供谷關無色無味之優質碳酸原湯，並取用八仙山之山冷泉供蒞臨貴賓沐浴及飲水使用。',
     group: 20,
     price: 1765,
-    rate: 7
-  }
+    rate: 7,
+  },
 ];
 
 const selectOption = ['台北', '台中', '高雄'];
 
-const url =
-  'https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json';
+const url = 'https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json';
 
 // fetchData
 
@@ -204,7 +201,7 @@ function renderFormInput(id, type, title, placeholder) {
 function renderFormSelect(id, title, placeholder, option) {
   let optionStr = '';
 
-  option.forEach(item => {
+  option.forEach((item) => {
     optionStr += `
       <option value="${item}">
     `;
@@ -237,13 +234,12 @@ function renderTravelContainer(data) {
   let htmlStr = '';
 
   if (data.length === 0) {
-    travelContainer.innerHTML =
-      '<img src="images/no_found.png" class="travel_noFoundImg" />';
+    travelContainer.innerHTML = '<img src="images/no_found.png" class="travel_noFoundImg" />';
     selectItemNum(data);
     return;
   }
 
-  data.forEach(item => {
+  data.forEach((item) => {
     htmlStr += renderTravelCard(item);
   });
 
@@ -317,7 +313,7 @@ function renderTravelSelect() {
     <option value="地區搜尋" selected disabled hidden>地區搜尋</option>
     <option value="全部地區">全部地區</option>
   `;
-  selectOption.forEach(option => {
+  selectOption.forEach((option) => {
     htmlStr += renderTravelSelectOption(option);
   });
   travelSelect.innerHTML = htmlStr;
@@ -339,9 +335,7 @@ function selectItemNum(selectData) {
 function currency(val, symbol) {
   const arr = val.toString().split('.');
   const re = /(\d{1,3})(?=(\d{3})+$)/g;
-  return (
-    symbol + arr[0].replace(re, '$1,') + (arr.length === 2 ? '.' + arr[1] : '')
-  );
+  return symbol + arr[0].replace(re, '$1,') + (arr.length === 2 ? '.' + arr[1] : '');
 }
 
 // 事件 event
@@ -368,8 +362,7 @@ function addData() {
     }
 
     if (id === 'imgUrl' && tempDom.value.indexOf('https') === -1) {
-      tempDom.value =
-        'https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto';
+      tempDom.value = 'https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto';
     }
 
     if (id === 'area' && !selectOption.includes(tempDom.value)) {
@@ -390,7 +383,7 @@ function addData() {
       timer: 1500,
       timerProgressBar: true,
       icon: 'error',
-      title: '表單是空的唷!'
+      title: '表單是空的唷!',
     });
     errorMsg = [];
   } else if (errorMsg.length > 0) {
@@ -402,7 +395,7 @@ function addData() {
       timerProgressBar: true,
       icon: 'error',
       title: '輸入錯誤!',
-      text: errorMsg.join(', ')
+      text: errorMsg.join(', '),
     });
     errorMsg = [];
   } else {
@@ -413,7 +406,7 @@ function addData() {
       timer: 1500,
       timerProgressBar: true,
       icon: 'success',
-      title: '新增資料成功!'
+      title: '新增資料成功!',
     });
     travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
@@ -426,9 +419,7 @@ function selectData() {
     travelSelect.classList.remove('default');
   }
 
-  const filterData = travelData.filter(
-    ({ area }) => area === travelSelect.value
-  );
+  const filterData = travelData.filter(({ area }) => area === travelSelect.value);
 
   if (selectOption.includes(travelSelect.value)) {
     renderTravelContainer(filterData);
@@ -448,8 +439,8 @@ function deleteData(e) {
     confirmButtonColor: '#3085d6',
     cancelButtonColor: '#d33',
     confirmButtonText: '是的 刪除他',
-    cancelButtonText: '再想想'
-  }).then(result => {
+    cancelButtonText: '再想想',
+  }).then((result) => {
     if (result.isConfirmed) {
       Swal.fire({
         toast: true,
@@ -458,7 +449,7 @@ function deleteData(e) {
         timer: 1500,
         timerProgressBar: true,
         icon: 'success',
-        title: '他正飄向宇宙的盡頭...'
+        title: '他正飄向宇宙的盡頭...',
       });
       travelData = travelData.filter(({ name }) => name !== deleteName);
       renderTravelContainer(travelData);
