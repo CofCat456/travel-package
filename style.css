@@ -240,7 +240,9 @@ a {
   display: block;
   padding: 8px 12px;
   background-color: #fafafa;
-  border-bottom: 1px solid var(--primary);
+  border: 1px solid transparent;
+  border-bottom-style: solid;
+  border-bottom-color: var(--primary);
   text-indent: 0.5rem;
 }
 

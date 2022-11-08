@@ -1,3 +1,5 @@
+import { saveLocalTravelData, getLocalTravelData, currency } from './global.js';
+
 const formGroup = document.querySelector('.form-group');
 const travelContainer = document.querySelector('.travel-container');
 const addTicketBtn = document.querySelector('.addTicket-btn');
@@ -12,7 +14,7 @@ const formInputData = [
     placeholder: '請填寫套票名稱',
   },
   {
-    id: '`mgUrl',
+    id: 'imgUrl',
     type: 'text',
     title: '圖片網址',
     placeholder: '請填寫圖片網址',
@@ -125,49 +127,7 @@ const selectOption = ['台北', '台中', '高雄'];
 
 const url = 'https://raw.githubusercontent.com/hexschool/js-training/main/travelApi.json';
 
-// fetchData
-
-async function fetchData() {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    return data.data;
-  } catch (err) {
-    console.log(err);
-  }
-}
-
-(async () => {
-  const data = await fetchData();
-  travelData = data;
-  getLocalTravelData();
-  renderTravelContainer(travelData);
-})();
-
 // render DOM
-
-// render Form
-function renderForm() {
-  let htmlStr = '';
-
-  formInputData.forEach(({ id, type, title, option, placeholder }) => {
-    switch (type) {
-      case 'text':
-      case 'number':
-        htmlStr += renderFormInput(id, type, title, placeholder);
-        break;
-      case 'select':
-        htmlStr += renderFormSelect(id, title, placeholder, option);
-        break;
-      case 'textarea':
-        htmlStr += renderFormArea(id, title, placeholder);
-        break;
-    }
-  });
-  formGroup.innerHTML = htmlStr;
-}
-renderForm();
-
 function renderFormInput(id, type, title, placeholder) {
   const textInput = `
     <div class="addTicket-block">
@@ -229,24 +189,35 @@ function renderFormArea(id, title, placeholder) {
   return textarea;
 }
 
-// render travel Card
-function renderTravelContainer(data) {
+// render Form
+function renderForm() {
   let htmlStr = '';
-
-  if (data.length === 0) {
-    travelContainer.innerHTML = '<img src="images/no_found.png" class="travel_noFoundImg" />';
-    selectItemNum(data);
-    return;
-  }
-
-  data.forEach((item) => {
-    htmlStr += renderTravelCard(item);
+  formInputData.forEach(({ id, type, title, option, placeholder }) => {
+    switch (type) {
+      case 'text':
+      case 'number':
+        htmlStr += renderFormInput(id, type, title, placeholder);
+        break;
+      case 'select':
+        htmlStr += renderFormSelect(id, title, placeholder, option);
+        break;
+      case 'textarea':
+        htmlStr += renderFormArea(id, title, placeholder);
+        break;
+      default:
+        break;
+    }
   });
+  formGroup.innerHTML = htmlStr;
+}
+renderForm();
 
-  travelContainer.innerHTML = htmlStr;
-  selectItemNum(data);
+// select text
+function selectItemNum(data) {
+  selectText.textContent = `本次搜尋共 ${data.length} 筆資料`;
 }
 
+// render travel Card
 function renderTravelCard(item) {
   const { name, imgUrl, description, area, rate, group, price } = item;
   return `
@@ -275,11 +246,21 @@ function renderTravelCard(item) {
   `;
 }
 
-function renderAddTravelCardChild(item) {
-  const li = document.createElement('li');
-  li.classList.add('travel-card');
-  li.innerHTML = renderTravelCardContent(item);
-  travelContainer.appendChild(li);
+function renderTravelContainer(data) {
+  let htmlStr = '';
+
+  if (data.length === 0) {
+    travelContainer.innerHTML = '<img src="images/no_found.png" class="travel_noFoundImg" />';
+    selectItemNum(data);
+    return;
+  }
+
+  data.forEach((item) => {
+    htmlStr += renderTravelCard(item);
+  });
+
+  travelContainer.innerHTML = htmlStr;
+  selectItemNum(data);
 }
 
 function renderTravelCardContent(item) {
@@ -308,6 +289,19 @@ function renderTravelCardContent(item) {
   `;
 }
 
+function renderAddTravelCardChild(item) {
+  const li = document.createElement('li');
+  li.classList.add('travel-card');
+  li.innerHTML = renderTravelCardContent(item);
+  travelContainer.appendChild(li);
+}
+
+function renderTravelSelectOption(option) {
+  return `
+    <option value="${option}">${option}</option>
+  `;
+}
+
 function renderTravelSelect() {
   let htmlStr = `
     <option value="地區搜尋" selected disabled hidden>地區搜尋</option>
@@ -318,30 +312,7 @@ function renderTravelSelect() {
   });
   travelSelect.innerHTML = htmlStr;
 }
-
-function renderTravelSelectOption(option) {
-  return `
-    <option value="${option}">${option}</option>
-  `;
-}
 renderTravelSelect();
-
-// select text
-function selectItemNum(selectData) {
-  selectText.textContent = `本次搜尋共 ${selectData.length} 筆資料`;
-}
-
-// 換算金錢
-function currency(val, symbol) {
-  const arr = val.toString().split('.');
-  const re = /(\d{1,3})(?=(\d{3})+$)/g;
-  return symbol + arr[0].replace(re, '$1,') + (arr.length === 2 ? '.' + arr[1] : '');
-}
-
-// 事件 event
-addTicketBtn.addEventListener('click', addData);
-travelSelect.addEventListener('change', selectData);
-travelContainer.addEventListener('click', deleteData);
 
 function addData() {
   const tempObj = {};
@@ -352,27 +323,31 @@ function addData() {
     const tempDom = document.querySelector(`#${id}`);
     if (type === 'number' && !numRegex.test(tempDom.value)) {
       errorMsg.push(`${title}欄位請輸入數字`);
-      tempDom.value = '';
+      tempDom.style.borderColor = 'red';
       return;
     }
 
     if (tempDom.value === '') {
       errorMsg.push(`${title}輸入不得為空`);
+      tempDom.style.borderColor = 'red';
       return;
     }
 
     if (id === 'imgUrl' && tempDom.value.indexOf('https') === -1) {
-      tempDom.value = 'https://fakeimg.pl/200x100/282828/eae0d0/?retina=1&text=Not Found&font=noto';
+      errorMsg.push(`${title}請輸入有效圖片網址`);
+      tempDom.style.borderColor = 'red';
+      return;
     }
 
     if (id === 'area' && !selectOption.includes(tempDom.value)) {
       errorMsg.push(`${title}限輸入選項內的地區`);
-      tempDom.value = '';
+      tempDom.style.borderColor = 'red';
       return;
     }
 
+    document.querySelector(`#${id}`).style.borderColor = 'transparent';
+    document.querySelector(`#${id}`).style.borderBottomColor = 'var(--parimary)';
     tempObj[id] = tempDom.value;
-    tempDom.value = '';
   });
 
   if (errorMsg.length === formInputData.length) {
@@ -408,9 +383,13 @@ function addData() {
       icon: 'success',
       title: '新增資料成功!',
     });
+
+    formInputData.forEach(({ id }) => {
+      document.querySelector(`#${id}`).value = '';
+    });
     travelData.push(tempObj);
     renderAddTravelCardChild(tempObj);
-    saveLocalTravelData();
+    saveLocalTravelData(travelData);
   }
 }
 
@@ -453,22 +432,30 @@ function deleteData(e) {
       });
       travelData = travelData.filter(({ name }) => name !== deleteName);
       renderTravelContainer(travelData);
-      saveLocalTravelData();
+      saveLocalTravelData(travelData);
     }
   });
 }
 
-// localStorage
-function saveLocalTravelData() {
-  localStorage.setItem('travel', JSON.stringify(travelData));
+// 事件 event
+addTicketBtn.addEventListener('click', addData);
+travelSelect.addEventListener('change', selectData);
+travelContainer.addEventListener('click', deleteData);
+
+// fetchData
+async function fetchData() {
+  try {
+    const res = await fetch(url);
+    const data = await res.json();
+    return data.data;
+  } catch (err) {
+    console.log(err);
+  }
+  return null;
 }
 
-function getLocalTravelData() {
-  if (localStorage.getItem('travel') === null) {
-    localStorage.setItem('travel', JSON.stringify(travelData));
-  } else {
-    const tempData = JSON.parse(localStorage.getItem('travel'));
-    if (tempData.length === 0) return;
-    travelData = tempData;
-  }
-}
+(async () => {
+  const data = await fetchData();
+  travelData = getLocalTravelData(data);
+  renderTravelContainer(travelData);
+})();

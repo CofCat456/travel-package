@@ -1,6 +1,7 @@
 {
   "name": "travel-package",
   "version": "1.0.0",
+  "type": "module",
   "description": "Demo： [期中試煉](https://cofcat456.github.io/travel-package)",
   "main": "index.js",
   "scripts": {
